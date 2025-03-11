@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Tilemaps;
 
 public class GridBuilding : MonoBehaviour
 {
@@ -17,9 +18,12 @@ public class GridBuilding : MonoBehaviour
     [SerializeField] private int gridCellSize;
     [SerializeField] private GameObject placementParticles;
 
+    [SerializeField] private Tilemap backTiles;
     // Start is called before the first frame update
     private void Start()
     {
+        backTiles = FindObjectOfType<Tilemap>();
+        backTiles.SetTile(Vector3Int.zero, null);
         emitter = GetComponent<SFXEmitter>();
         buildingGrid = new GridSystem<GridObject>(gridWidth, gridHeight, gridCellSize, this.transform.position, (GridSystem<GridObject> grid, int x, int y) => new GridObject(x, y, grid));
         player = FindFirstObjectByType<PlayerController>();
@@ -97,15 +101,26 @@ public class GridBuilding : MonoBehaviour
 
                 if (canPlace)
                 {
+                    Vector3Int offset = new Vector3Int(-9, -1, 0);
+                    PlacedObject placedObject = PlacedObject.Create(buildingGrid.GetWorldPosition(position.x, position.y), new Vector2Int(position.x, position.y), currentPlaceable);
+                    foreach (Vector3Int gridPos in gridPositions)
+                    {
+                        buildingGrid.GetValue(gridPos.x, gridPos.y).SetPlacedObject(placedObject);
 
-                        PlacedObject placedObject = PlacedObject.Create(buildingGrid.GetWorldPosition(position.x, position.y), new Vector2Int(position.x, position.y), currentPlaceable);
-                        foreach (Vector2Int gridPos in gridPositions)
+                        //Tilemap
+                        for (int x = 0; x < gridWidth; x++)
                         {
-                            buildingGrid.GetValue(gridPos.x, gridPos.y).SetPlacedObject(placedObject);
+                            for (int y = 0; y < gridHeight; y++)
+                            {
+                                
+                                backTiles.SetTile(gridPos + offset, null);
+                            }
                         }
-                        //emitter.PlayOverlap(SoundEffectType.Place);
-                        Vector2 particlePos = new Vector2(placedObject.transform.position.x + placedObject.placeableType.width / 2, placedObject.transform.position.y + placedObject.placeableType.height / 2);
-                        //GameObject particles = Instantiate(placementParticles, particlePos, Quaternion.identity);
+                    }
+                    //emitter.PlayOverlap(SoundEffectType.Place);
+                    Vector2 particlePos = new Vector2(placedObject.transform.position.x + placedObject.placeableType.width / 2, placedObject.transform.position.y + placedObject.placeableType.height / 2);
+                    //GameObject particles = Instantiate(placementParticles, particlePos, Quaternion.identity);
+
                 }
                 else
                 {
