@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum PlaceableType {Segment1, Segment2};
 
 [CreateAssetMenu(menuName = "Placeable")]
 public class PlaceableLevels : ScriptableObject
@@ -10,7 +9,6 @@ public class PlaceableLevels : ScriptableObject
     public GameObject prefab;
     public float width;
     public float height;
-    public PlaceableType type;
 
     public List<Vector2Int> GetGridPositionList(Vector2Int offset)
     {

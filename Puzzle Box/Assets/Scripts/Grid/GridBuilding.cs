@@ -4,10 +4,12 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Tilemaps;
+using UnityEngine.UIElements;
 
 public class GridBuilding : MonoBehaviour
 {
     [SerializeField] public PlaceableLevels currentPlaceable;
+    [SerializeField] public PlaceableLevels startPlaceable;
 
     private PlayerInputManager inputManager;
     private PlayerController player;
@@ -19,15 +21,36 @@ public class GridBuilding : MonoBehaviour
     [SerializeField] private GameObject placementParticles;
 
     [SerializeField] private Tilemap backTiles;
+    [SerializeField] private TileBase tileBase;
+    private Vector3Int offset;
+    [SerializeField] private Transform startingPoint;
+    [SerializeField] private string startTag;
+
     // Start is called before the first frame update
     private void Start()
     {
         backTiles = FindObjectOfType<Tilemap>();
-        backTiles.SetTile(Vector3Int.zero, null);
+        //backTiles.SetTile(Vector3Int.zero, null);
         emitter = GetComponent<SFXEmitter>();
         buildingGrid = new GridSystem<GridObject>(gridWidth, gridHeight, gridCellSize, this.transform.position, (GridSystem<GridObject> grid, int x, int y) => new GridObject(x, y, grid));
         player = FindFirstObjectByType<PlayerController>();
         inputManager = player.GetComponent<PlayerInputManager>();
+
+        offset = new Vector3Int(-9, -1, 0);
+
+        //Set up Level
+        Vector2Int startPosition = buildingGrid.GetPosition(new Vector3(startingPoint.position.x, startingPoint.position.y));
+        PlacedObject startObject = PlacedObject.Create(buildingGrid.GetWorldPosition(startPosition.x, startPosition.y), new Vector2Int(startPosition.x, startPosition.y), startPlaceable);
+        startObject.gameObject.tag = startTag;
+        List<Vector2Int> gridPositions = startPlaceable.GetGridPositionList(startPosition);
+        foreach (Vector3Int gridPos in gridPositions)
+        {
+            buildingGrid.GetValue(gridPos.x, gridPos.y).SetPlacedObject(startObject);
+
+            //Tilemap    
+            backTiles.SetTile(gridPos + offset, null);
+
+        }
     }
 
     public class GridObject
@@ -101,21 +124,14 @@ public class GridBuilding : MonoBehaviour
 
                 if (canPlace)
                 {
-                    Vector3Int offset = new Vector3Int(-9, -1, 0);
                     PlacedObject placedObject = PlacedObject.Create(buildingGrid.GetWorldPosition(position.x, position.y), new Vector2Int(position.x, position.y), currentPlaceable);
                     foreach (Vector3Int gridPos in gridPositions)
                     {
                         buildingGrid.GetValue(gridPos.x, gridPos.y).SetPlacedObject(placedObject);
 
-                        //Tilemap
-                        for (int x = 0; x < gridWidth; x++)
-                        {
-                            for (int y = 0; y < gridHeight; y++)
-                            {
-                                
-                                backTiles.SetTile(gridPos + offset, null);
-                            }
-                        }
+                        //Tilemap    
+                        backTiles.SetTile(gridPos + offset, null);
+
                     }
                     //emitter.PlayOverlap(SoundEffectType.Place);
                     Vector2 particlePos = new Vector2(placedObject.transform.position.x + placedObject.placeableType.width / 2, placedObject.transform.position.y + placedObject.placeableType.height / 2);
@@ -133,13 +149,15 @@ public class GridBuilding : MonoBehaviour
             {
                 GridObject gridObject = buildingGrid.GetValue(GetMousePos());
                 PlacedObject placedObjectToDestroy = gridObject.GetPlacedObject();
-                if (placedObjectToDestroy != null)
+                if (placedObjectToDestroy != null && !placedObjectToDestroy.gameObject.CompareTag("Respawn"))
                 {
                     List<Vector2Int> gridPositions = placedObjectToDestroy.GetGridPositionList();
-                    foreach (Vector2Int gridPos in gridPositions)
+                    foreach (Vector3Int gridPos in gridPositions)
                     {
                         buildingGrid.GetValue(gridPos.x, gridPos.y).RemovePlacedObject();
 
+                        //Tilemap    
+                        backTiles.SetTile(gridPos + offset, tileBase);
                     }
                     Destroy(placedObjectToDestroy.gameObject);
                 }
