@@ -21,7 +21,10 @@ public class GridBuilding : MonoBehaviour
     [SerializeField] private GameObject placementParticles;
 
     [SerializeField] private Tilemap backTiles;
-    [SerializeField] private TileBase tileBase;
+    [SerializeField] private Tilemap blockedZoneTiles;
+    [SerializeField] private TileBase backTileBase;
+    [SerializeField] private Tilemap[] tilemaps;
+
     private Vector3Int offset;
     [SerializeField] private Transform startingPoint;
     [SerializeField] private string startTag;
@@ -29,7 +32,18 @@ public class GridBuilding : MonoBehaviour
     // Start is called before the first frame update
     private void Start()
     {
-        backTiles = FindObjectOfType<Tilemap>();
+        tilemaps = FindObjectsOfType<Tilemap>();
+        for(int i = 0; i < tilemaps.Length; i++)
+        {
+            if (tilemaps[i].CompareTag("Background"))
+            {
+                backTiles = tilemaps[i];
+            }
+            else if (tilemaps[i].CompareTag("Blocked"))
+            {
+                blockedZoneTiles = tilemaps[i];
+            }
+        }
         //backTiles.SetTile(Vector3Int.zero, null);
         emitter = GetComponent<SFXEmitter>();
         buildingGrid = new GridSystem<GridObject>(gridWidth, gridHeight, gridCellSize, this.transform.position, (GridSystem<GridObject> grid, int x, int y) => new GridObject(x, y, grid));
@@ -104,9 +118,9 @@ public class GridBuilding : MonoBehaviour
             {
                 List<Vector2Int> gridPositions = currentPlaceable.GetGridPositionList(position);
                 bool canPlace = true;
-                foreach (Vector2Int gridPos in gridPositions)
+                foreach (Vector3Int gridPos in gridPositions)
                 {
-                    if (buildingGrid.GetValue(gridPos.x, gridPos.y) == null)
+                    if (buildingGrid.GetValue(gridPos.x, gridPos.y) == null || blockedZoneTiles.GetTile(gridPos + offset))
                     {
                         canPlace = false;
                         break;
@@ -149,17 +163,31 @@ public class GridBuilding : MonoBehaviour
             {
                 GridObject gridObject = buildingGrid.GetValue(GetMousePos());
                 PlacedObject placedObjectToDestroy = gridObject.GetPlacedObject();
+
                 if (placedObjectToDestroy != null && !placedObjectToDestroy.gameObject.CompareTag("Respawn"))
                 {
+                    bool noPlayerNearby = true;
                     List<Vector2Int> gridPositions = placedObjectToDestroy.GetGridPositionList();
                     foreach (Vector3Int gridPos in gridPositions)
                     {
-                        buildingGrid.GetValue(gridPos.x, gridPos.y).RemovePlacedObject();
-
-                        //Tilemap    
-                        backTiles.SetTile(gridPos + offset, tileBase);
+                        if (Vector2.Distance(buildingGrid.GetPosition(player.transform.position), (Vector2Int)gridPos) <= 0.5f)
+                        {   
+                            noPlayerNearby = false;
+                            break;
+                        }
                     }
-                    Destroy(placedObjectToDestroy.gameObject);
+                    if (noPlayerNearby)
+                    {
+                        foreach (Vector3Int gridPos in gridPositions)
+                        {
+                            buildingGrid.GetValue(gridPos.x, gridPos.y).RemovePlacedObject();
+
+                            //Tilemap    
+                            backTiles.SetTile(gridPos + offset, backTileBase);
+                        }
+                        Destroy(placedObjectToDestroy.gameObject);
+                    }
+                   
                 }
             }
         }
