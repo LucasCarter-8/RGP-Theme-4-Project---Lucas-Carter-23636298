@@ -85,7 +85,7 @@ public class PlayerController : MonoBehaviour
 
         UpdateCoyoteTime();
         UpdateGravity();
-        //UpdateAnimations();
+        UpdateAnimations();
         //UpdateSounds();
 
         if (inputManager.escape)
@@ -179,11 +179,11 @@ public class PlayerController : MonoBehaviour
 
             if (horizontalDirection < 0f)
             {
-                spriteRendererComponent.flipX = true;
+                spriteRendererComponent.flipX = false;
             }
             else if (horizontalDirection > 0f)
             {
-                spriteRendererComponent.flipX = false;
+                spriteRendererComponent.flipX = true;
             }
 
             if (rigidBody.velocity.y > 0.1f)
@@ -213,6 +213,12 @@ public class PlayerController : MonoBehaviour
         animator.Play(animation);
     }
 
-    
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.CompareTag("Finish"))
+        {
+            GameManager.Instance.ReloadLevel();
+        }
+    }
 
 }

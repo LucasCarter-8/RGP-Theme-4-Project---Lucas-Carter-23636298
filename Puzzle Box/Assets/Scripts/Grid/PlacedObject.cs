@@ -6,6 +6,7 @@ using UnityEngine.UIElements;
 
 public class PlacedObject : MonoBehaviour
 {
+    //The object that is placed into a grid object in the grid
     public PlaceableLevels placeableType;
     [SerializeField] private Vector2Int origin;
     public static PlacedObject Create(Vector3 worldPos, Vector2Int origin, PlaceableLevels placeable)

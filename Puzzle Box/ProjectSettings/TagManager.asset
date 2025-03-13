@@ -15,7 +15,7 @@ TagManager:
   - UI
   - Ground
   - Background
-  - 
+  - Ghost
   - 
   - 
   - 
@@ -42,4 +42,16 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: VeryBackGround
+    uniqueID: 416843993
+    locked: 0
+  - name: Background
+    uniqueID: 1044337407
+    locked: 0
+  - name: Ground
+    uniqueID: 1701819861
+    locked: 0
+  - name: Player
+    uniqueID: 1650912667
     locked: 0
