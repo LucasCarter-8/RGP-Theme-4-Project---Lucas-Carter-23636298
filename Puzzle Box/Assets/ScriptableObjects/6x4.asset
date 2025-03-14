@@ -10,8 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 795971b00bae32548baf22d24a487f45, type: 3}
-  m_Name: LevelSegment1
+  m_Name: 6x4
   m_EditorClassIdentifier: 
-  prefab: {fileID: 6010418358393502881, guid: cf875177e7479e74691d4661ca386f63, type: 3}
-  width: 3
+  prefab: {fileID: 6010418358393502881, guid: 9dffad58d56f2b741925b54ad8e4f8f2, type: 3}
+  width: 6
   height: 4

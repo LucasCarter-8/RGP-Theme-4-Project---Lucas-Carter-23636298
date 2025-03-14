@@ -5,8 +5,9 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class GameManager : Singleton<GameManager>
-{   
-   
+{
+    [SerializeField] private Sprite finishedLevel;
+    [SerializeField] public SpriteRenderer finishPointRenderer;
     public void LoadNextLevel()
     {
         int currentLevel = SceneManager.GetActiveScene().buildIndex;
@@ -17,6 +18,13 @@ public class GameManager : Singleton<GameManager>
         }
     }
 
+    public IEnumerator LoadNextLevel(float delay)
+    {
+        finishPointRenderer.sprite = finishedLevel;
+        yield return new WaitForSeconds(delay);
+        LoadNextLevel();
+    }
+
     public void GoToMainMenu()
     {
         SceneManager.LoadScene(0);
@@ -25,6 +33,13 @@ public class GameManager : Singleton<GameManager>
     public void ReloadLevel()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+
+    public IEnumerator ReloadLevel(float delay)
+    {
+        finishPointRenderer.sprite = finishedLevel;
+        yield return new WaitForSeconds(delay);
+        ReloadLevel();
     }
 
 }

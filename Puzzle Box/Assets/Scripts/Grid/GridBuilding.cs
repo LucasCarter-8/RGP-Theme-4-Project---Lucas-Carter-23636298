@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using Unity.VisualScripting;
+using UnityEditor.Build.Content;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Tilemaps;
@@ -99,6 +100,15 @@ public class GridBuilding : MonoBehaviour
         //End segment
         Vector2Int endPosition = buildingGrid.GetPosition(new Vector3(endPoint.position.x, endPoint.position.y));
         PlacedObject endObject = PlacedObject.Create(buildingGrid.GetWorldPosition(endPosition.x, endPosition.y), new Vector2Int(endPosition.x, endPosition.y), endPlaceable);
+        //Find finish point in the object so that the sprite can change when the player completes the level
+        foreach(SpriteRenderer child in endObject.GetComponentsInChildren<SpriteRenderer>())
+        {
+            if(child.gameObject.CompareTag(endTag))
+            {
+                GameManager.Instance.finishPointRenderer = child;
+                break;
+            }
+        }
         endObject.gameObject.tag = endTag;
         List<Vector2Int> endGridPositions = endPlaceable.GetGridPositionList(endPosition);
         foreach (Vector3Int gridPos in endGridPositions)

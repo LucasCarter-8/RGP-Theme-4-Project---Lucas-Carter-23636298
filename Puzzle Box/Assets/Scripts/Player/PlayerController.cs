@@ -39,6 +39,7 @@ public class PlayerController : MonoBehaviour
 
     //Other
     private float horizontalDirection;
+    private bool finished = false;
 
     [SerializeField] private float originalGravity;
     private float fallGravity;
@@ -67,30 +68,34 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     private void FixedUpdate()
     {
-        if(IsGrounded())
+        if(!finished)
         {
-            isJumping = false;
-        }
-        horizontalDirection = inputManager.GetHorizontal();
+            if (IsGrounded())
+            {
+                isJumping = false;
+            }
+            horizontalDirection = inputManager.GetHorizontal();
 
-        if (IsGrounded())
-        {
-            rigidBody.velocity = new Vector2(horizontalDirection * horizontalSpeed, rigidBody.velocity.y);
-        }
-        else if (!IsGrounded())
-        {
-            rigidBody.velocity = new Vector2(horizontalDirection * horizontalSpeed / 1.5f, rigidBody.velocity.y);
-        }
-        canJump = IsGrounded() || canUseCoyoteTime;
+            if (IsGrounded())
+            {
+                rigidBody.velocity = new Vector2(horizontalDirection * horizontalSpeed, rigidBody.velocity.y);
+            }
+            else if (!IsGrounded())
+            {
+                rigidBody.velocity = new Vector2(horizontalDirection * horizontalSpeed / 1.5f, rigidBody.velocity.y);
+            }
+            canJump = IsGrounded() || canUseCoyoteTime;
 
-        UpdateCoyoteTime();
-        UpdateGravity();
-        UpdateAnimations();
-        //UpdateSounds();
+            UpdateCoyoteTime();
+            UpdateGravity();
+            UpdateAnimations();
+            //UpdateSounds();
 
-        if (inputManager.escape)
-        {
-            SceneManager.LoadScene(0);
+            if (inputManager.escape)
+            {
+                SceneManager.LoadScene(0);
+            }
+
         }
 
     }
@@ -102,6 +107,7 @@ public class PlayerController : MonoBehaviour
             if (callbackContext.performed)
             {
                 rigidBody.velocity = new Vector2(rigidBody.velocity.x, jumpForce);
+                GetComponent<PlayerDustEffect>().CreateJumpDust();
             }
             else if (callbackContext.canceled && rigidBody.velocity.y > 0)
             {
@@ -176,34 +182,31 @@ public class PlayerController : MonoBehaviour
     }
     private void UpdateAnimations()
     {
+        if (horizontalDirection < 0f)
+        {
+            spriteRendererComponent.flipX = false;
+        }
+        else if (horizontalDirection > 0f)
+        {
+            spriteRendererComponent.flipX = true;
+        }
 
-            if (horizontalDirection < 0f)
-            {
-                spriteRendererComponent.flipX = false;
-            }
-            else if (horizontalDirection > 0f)
-            {
-                spriteRendererComponent.flipX = true;
-            }
-
-            if (rigidBody.velocity.y > 0.1f)
-            {
-
-                PlayAnimation(PlayerAnimations.Jump);
-            }
-            else if (rigidBody.velocity.y < -0.1f)
-            {
-                PlayAnimation(PlayerAnimations.Fall);
-            }
-            else if (rigidBody.velocity.x > 0.1f || rigidBody.velocity.x < -0.1f)
-            {
-                PlayAnimation(PlayerAnimations.Walk);
-            }
-            else
-            {
-                PlayAnimation(PlayerAnimations.Idle);
-            }
-
+        if (rigidBody.velocity.y > 0.1f)
+        {
+            PlayAnimation(PlayerAnimations.Jump);
+        }
+        else if (rigidBody.velocity.y < -0.1f)
+        {
+            PlayAnimation(PlayerAnimations.Fall);
+        }
+        else if (rigidBody.velocity.x > 0.1f || rigidBody.velocity.x < -0.1f)
+        {
+            PlayAnimation(PlayerAnimations.Walk);
+        }
+        else
+        {
+            PlayAnimation(PlayerAnimations.Idle);
+        }
     }
 
     private void PlayAnimation(int animation)
@@ -217,7 +220,10 @@ public class PlayerController : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Finish"))
         {
-            GameManager.Instance.ReloadLevel();
+            finished = true;
+            spriteRendererComponent.enabled = false;
+            StartCoroutine(GameManager.Instance.ReloadLevel(3.0f));
+
         }
     }
 
