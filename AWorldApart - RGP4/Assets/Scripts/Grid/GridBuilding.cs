@@ -74,7 +74,7 @@ public class GridBuilding : MonoBehaviour
         player = FindFirstObjectByType<PlayerController>();
         inputManager = player.GetComponent<PlayerInputManager>();
 
-        offset = new Vector3Int(-9, -1, 0);
+        offset = new Vector3Int((int)this.transform.position.x, (int)this.transform.position.y, 0);
 
         //Creating ghost and making it invisible until the player has selected a new placeable
         ghost = Instantiate(ghost, Vector3.zero, Quaternion.identity);
@@ -186,7 +186,7 @@ public class GridBuilding : MonoBehaviour
         Vector2Int position = buildingGrid.GetPosition(GetMousePos());
 
         //Checking if mouse is within the grid
-        if (position.x >= 0 && position.y >= 0 && position.x < gridWidth && position.y < gridHeight)
+        if (position.x >= 0 && position.y >= 0 && position.x < gridWidth && position.y < gridHeight && !GameManager.Instance.finished)
         {          
             if (inputManager.mouseLeftClick && isDragging)
             {
@@ -250,7 +250,7 @@ public class GridBuilding : MonoBehaviour
                     List<Vector2Int> gridPositions = placedObjectToDestroy.GetGridPositionList();
                     foreach (Vector3Int gridPos in gridPositions)
                     {
-                        if (Vector2.Distance(buildingGrid.GetPosition(player.transform.position), (Vector2Int)gridPos) <= 0.5f)
+                        if (Vector2.Distance(buildingGrid.GetPosition(player.transform.position), (Vector2Int)gridPos) <= 1f)
                         {   
                             noPlayerNearby = false;
                             break;

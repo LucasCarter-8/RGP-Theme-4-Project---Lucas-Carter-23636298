@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 50308545b81080f41814ec8ce95089fd
+guid: 08aaab0ee8ba94147aa55cb480df58d4
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -97,148 +97,148 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: GroundTiles_0
-      rect:
-        serializedVersion: 2
-        x: 16
-        y: 48
-        width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 8bcde0b828aa5614daf8bcfaaae872ff
-      internalID: -964589415
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: GroundTiles_1
-      rect:
-        serializedVersion: 2
-        x: 16
-        y: 32
-        width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: abbb62471e7c6ba4f975ccfd27127808
-      internalID: 891329594
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: GroundTiles_2
-      rect:
-        serializedVersion: 2
-        x: 48
-        y: 32
-        width: 16
-        height: 24
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 537c6a7f66ea06e458eb8b5917162e84
-      internalID: -652508953
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: GroundTiles_3
+      name: MainMenuUI_0
       rect:
         serializedVersion: 2
         x: 0
-        y: 0
-        width: 16
-        height: 24
+        y: 96
+        width: 32
+        height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 83fd93ee26887694582b8899ab19e0ac
-      internalID: -604576847
+      spriteID: 5c005decba3180246892a4f46c690feb
+      internalID: -2104344942
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: GroundTiles_4
+      name: MainMenuUI_1
       rect:
         serializedVersion: 2
-        x: 16
-        y: 0
-        width: 16
-        height: 24
+        x: 1
+        y: 82
+        width: 30
+        height: 12
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: e2a22a5794c03db4d8a35d587369f8f4
-      internalID: 2007364145
+      spriteID: b8e2ad63888629444987ada0cc365548
+      internalID: -1515015601
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: GroundTiles_5
+      name: MainMenuUI_2
+      rect:
+        serializedVersion: 2
+        x: 38
+        y: 86
+        width: 4
+        height: 4
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 54524e402fc1631409581eb8903e60ac
+      internalID: 802419730
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MainMenuUI_3
+      rect:
+        serializedVersion: 2
+        x: 53
+        y: 85
+        width: 6
+        height: 6
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fac9b4a63eb6ab24e80799d3c999c836
+      internalID: 299948586
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MainMenuUI_4
+      rect:
+        serializedVersion: 2
+        x: 6
+        y: 18
+        width: 77
+        height: 41
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 753e0259a3ec7b94cb59e98018b396b0
+      internalID: 2057348140
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MainMenuUI_15
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 112
+        width: 32
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 16596820f13b08b45bc8cd050ea11e29
+      internalID: -1366129133
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MainMenuUI_16
       rect:
         serializedVersion: 2
         x: 32
-        y: 0
-        width: 16
-        height: 24
+        y: 112
+        width: 32
+        height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 34cdcce8b19d0fb498e53237d1bf77fc
-      internalID: 1097560604
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: GroundTiles_6
-      rect:
-        serializedVersion: 2
-        x: 48
-        y: 0
-        width: 16
-        height: 24
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: fe41b9df4b17ebb4aa40d4d350b312fc
-      internalID: -1896576888
+      spriteID: 0ef7cf46d45256e42826d7832d5ec490
+      internalID: 229455773
       vertices: []
       indices: 
       edges: []
@@ -254,13 +254,23 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      GroundTiles_0: -964589415
-      GroundTiles_1: 891329594
-      GroundTiles_2: -652508953
-      GroundTiles_3: -604576847
-      GroundTiles_4: 2007364145
-      GroundTiles_5: 1097560604
-      GroundTiles_6: -1896576888
+      MainMenuUI_0: -2104344942
+      MainMenuUI_1: -1515015601
+      MainMenuUI_10: -1110450066
+      MainMenuUI_11: -397861055
+      MainMenuUI_12: 1885722364
+      MainMenuUI_13: 848020687
+      MainMenuUI_14: 638374640
+      MainMenuUI_15: -1366129133
+      MainMenuUI_16: 229455773
+      MainMenuUI_2: 802419730
+      MainMenuUI_3: 299948586
+      MainMenuUI_4: 2057348140
+      MainMenuUI_5: -143096226
+      MainMenuUI_6: -262224397
+      MainMenuUI_7: 956721100
+      MainMenuUI_8: -631074407
+      MainMenuUI_9: -1162532669
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

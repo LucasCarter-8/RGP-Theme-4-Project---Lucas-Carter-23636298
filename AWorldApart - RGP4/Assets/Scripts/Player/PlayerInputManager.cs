@@ -14,6 +14,7 @@ public class PlayerInputManager : MonoBehaviour
     [SerializeField] public bool jumpAction;
     [SerializeField] public bool mouseLeftClick;
     [SerializeField] public bool mouseRightClick;
+    [SerializeField] public bool reload;
     private void Start()
     {
         playerInputs = new PlayerInputs();
@@ -25,6 +26,9 @@ public class PlayerInputManager : MonoBehaviour
 
         playerInputs.Player.Escape.started += OnEscape;
         playerInputs.Player.Escape.canceled += OnEscape;
+
+        playerInputs.Player.Reload.started += OnReload;
+        playerInputs.Player.Reload.canceled += OnReload;
 
         playerInputs.Player.Jump.started += OnJump;
         playerInputs.Player.Jump.canceled += OnJump;
@@ -43,6 +47,10 @@ public class PlayerInputManager : MonoBehaviour
         mouseRightClick = callbackContext.ReadValueAsButton();
     }
 
+    private void OnReload(InputAction.CallbackContext callbackContext)
+    {
+        reload = callbackContext.ReadValueAsButton();
+    }
     private void OnJump(InputAction.CallbackContext callbackContext)
     {
         jumpAction = callbackContext.ReadValueAsButton();

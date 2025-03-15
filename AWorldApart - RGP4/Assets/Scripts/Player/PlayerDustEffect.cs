@@ -43,14 +43,16 @@ public class PlayerDustEffect : MonoBehaviour
     }
     private void Update()
     {
-        //Counter is incremented with the current time
-        dustCounter += Time.deltaTime;
-        //Dust position is set to be just behind the player so that the dust appears whilst running
-        dustPosition = new Vector3(transform.position.x, transform.position.y - dustOffset);
+        if(!GameManager.Instance.finished)
+        {
+            //Counter is incremented with the current time
+            dustCounter += Time.deltaTime;
+            //Dust position is set to be just behind the player so that the dust appears whilst running
+            dustPosition = new Vector3(transform.position.x, transform.position.y - dustOffset);
 
-        //Allows floor and wall dust to be created if the player is still alive
-        CreateDust();
-     
+            //Allows floor and wall dust to be created if the player is still alive
+            CreateDust();
+        }
     }
 
 

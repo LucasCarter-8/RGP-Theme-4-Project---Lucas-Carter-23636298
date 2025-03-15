@@ -39,7 +39,6 @@ public class PlayerController : MonoBehaviour
 
     //Other
     private float horizontalDirection;
-    private bool finished = false;
 
     [SerializeField] private float originalGravity;
     private float fallGravity;
@@ -68,7 +67,7 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     private void FixedUpdate()
     {
-        if(!finished)
+        if(!GameManager.Instance.finished)
         {
             if (IsGrounded())
             {
@@ -90,12 +89,15 @@ public class PlayerController : MonoBehaviour
             UpdateGravity();
             UpdateAnimations();
             //UpdateSounds();
+        }
+        if (inputManager.escape)
+        {
+            GameManager.Instance.GoToMainMenu();
+        }
 
-            if (inputManager.escape)
-            {
-                SceneManager.LoadScene(0);
-            }
-
+        if (inputManager.reload)
+        {
+            GameManager.Instance.ReloadLevel();
         }
 
     }
@@ -220,9 +222,9 @@ public class PlayerController : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Finish"))
         {
-            finished = true;
+            GameManager.Instance.finished = true;
             spriteRendererComponent.enabled = false;
-            StartCoroutine(GameManager.Instance.ReloadLevel(3.0f));
+            StartCoroutine(GameManager.Instance.LoadNextLevel(2.0f));
 
         }
     }

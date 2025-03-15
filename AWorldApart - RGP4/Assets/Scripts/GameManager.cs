@@ -8,6 +8,8 @@ public class GameManager : Singleton<GameManager>
 {
     [SerializeField] private Sprite finishedLevel;
     [SerializeField] public SpriteRenderer finishPointRenderer;
+    public bool finished = false;
+    [SerializeField] private GameObject endingUI;
     public void LoadNextLevel()
     {
         int currentLevel = SceneManager.GetActiveScene().buildIndex;
@@ -15,6 +17,10 @@ public class GameManager : Singleton<GameManager>
         if (currentLevel < SceneManager.sceneCountInBuildSettings - 1)
         {
             SceneManager.LoadScene(currentLevel + 1);
+        }
+        else if(currentLevel == SceneManager.sceneCountInBuildSettings - 1)
+        {
+            endingUI.SetActive(true);
         }
     }
 
