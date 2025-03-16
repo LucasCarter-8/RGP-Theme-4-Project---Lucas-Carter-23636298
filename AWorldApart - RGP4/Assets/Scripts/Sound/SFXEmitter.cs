@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum SoundEffectType { None, PlayerWalk, PlayerJump, UIHover, UIClick, Place, Collect, Slide, Death }
+public enum SoundEffectType { None, PlayerWalk, PlayerJump, UIHover, UIClick, Place, Remove, Finish }
 public class SFXEmitter : MonoBehaviour
 {
     [SerializeField] private Dictionary<SoundEffectType, AudioSource> audioSources;
@@ -52,6 +52,17 @@ public class SFXEmitter : MonoBehaviour
         if (audioSources.TryGetValue(soundEffect, out AudioSource source) && source.isPlaying)
         {
             source.Stop();
+        }
+    }
+
+    public void StopAllSFX()
+    {
+       foreach(SoundEffect soundEffect in effects)
+        {
+            if (audioSources.TryGetValue(soundEffect.Type, out AudioSource source) && source.isPlaying)
+            {
+                source.Stop();
+            }
         }
     }
 }

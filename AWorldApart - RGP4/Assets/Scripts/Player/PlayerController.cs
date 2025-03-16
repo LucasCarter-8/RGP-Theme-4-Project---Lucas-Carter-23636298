@@ -88,7 +88,7 @@ public class PlayerController : MonoBehaviour
             UpdateCoyoteTime();
             UpdateGravity();
             UpdateAnimations();
-            //UpdateSounds();
+            UpdateSounds();
         }
         if (inputManager.escape)
         {
@@ -104,12 +104,13 @@ public class PlayerController : MonoBehaviour
 
     public void OnJump(InputAction.CallbackContext callbackContext)
     {
-        if (canJump && !isJumping)
+        if (canJump && !isJumping && !GameManager.Instance.finished)
         {
             if (callbackContext.performed)
             {
                 rigidBody.velocity = new Vector2(rigidBody.velocity.x, jumpForce);
                 GetComponent<PlayerDustEffect>().CreateJumpDust();
+                soundEmitter.PlayOverlap(SoundEffectType.PlayerJump);
             }
             else if (callbackContext.canceled && rigidBody.velocity.y > 0)
             {
@@ -171,7 +172,7 @@ public class PlayerController : MonoBehaviour
 
     private void UpdateSounds()
     {
-        if (rigidBody.velocity.x == 0f || !IsGrounded())
+        if (rigidBody.velocity.x == 0f || !IsGrounded() || GameManager.Instance.finished)
         {
             soundEmitter.Stop(SoundEffectType.PlayerWalk);
         }
@@ -179,8 +180,6 @@ public class PlayerController : MonoBehaviour
         {
             soundEmitter.Play(SoundEffectType.PlayerWalk);
         }
-        soundEmitter.Play(SoundEffectType.PlayerJump);
-
     }
     private void UpdateAnimations()
     {
@@ -222,6 +221,8 @@ public class PlayerController : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Finish"))
         {
+            soundEmitter.StopAllSFX();
+            soundEmitter.Play(SoundEffectType.Finish);
             GameManager.Instance.finished = true;
             spriteRendererComponent.enabled = false;
             StartCoroutine(GameManager.Instance.LoadNextLevel(2.0f));

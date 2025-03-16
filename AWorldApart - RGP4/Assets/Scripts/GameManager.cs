@@ -10,6 +10,12 @@ public class GameManager : Singleton<GameManager>
     [SerializeField] public SpriteRenderer finishPointRenderer;
     public bool finished = false;
     [SerializeField] private GameObject endingUI;
+    private BGMEmitter BGM;
+
+    private void Start()
+    {
+        BGM = FindFirstObjectByType<BGMEmitter>();
+    }
     public void LoadNextLevel()
     {
         int currentLevel = SceneManager.GetActiveScene().buildIndex;
@@ -26,6 +32,7 @@ public class GameManager : Singleton<GameManager>
 
     public IEnumerator LoadNextLevel(float delay)
     {
+        BGM.Stop(BGMType.Game);
         finishPointRenderer.sprite = finishedLevel;
         yield return new WaitForSeconds(delay);
         LoadNextLevel();

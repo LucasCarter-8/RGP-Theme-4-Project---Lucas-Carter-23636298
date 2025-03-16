@@ -26,8 +26,6 @@ public class GridBuilding : MonoBehaviour
     [SerializeField] private int gridHeight;
     [SerializeField] private int gridCellSize;
 
-    [SerializeField] private GameObject placementParticles;
-
     //Tilemaps variables
     [SerializeField] private Tilemap backTiles;
     [SerializeField] private Tilemap blockedZoneTiles;
@@ -223,9 +221,7 @@ public class GridBuilding : MonoBehaviour
                         backTiles.SetTile(gridPos + offset, null);
 
                     }
-                    //emitter.PlayOverlap(SoundEffectType.Place);
-                    Vector2 particlePos = new Vector2(placedObject.transform.position.x + placedObject.placeableType.width / 2, placedObject.transform.position.y + placedObject.placeableType.height / 2);
-                    //GameObject particles = Instantiate(placementParticles, particlePos, Quaternion.identity);
+                    emitter.PlayOverlap(SoundEffectType.Place);
                     ghostComponent.RemoveGhost();
                     isDragging = false;
                 }
@@ -269,7 +265,8 @@ public class GridBuilding : MonoBehaviour
                             //Tilemap    
                             backTiles.SetTile(gridPos + offset, backTileBase);
                         }
-                        Destroy(placedObjectToDestroy.gameObject);                       
+                        Destroy(placedObjectToDestroy.gameObject);
+                        emitter.PlayOverlap(SoundEffectType.Remove);
                         isDragging = true;
                     }
                    
