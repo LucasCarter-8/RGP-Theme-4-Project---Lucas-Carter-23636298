@@ -69,6 +69,7 @@ public class PlayerController : MonoBehaviour
     {
         if(!GameManager.Instance.finished)
         {
+            UpdateCoyoteTime();
             if (IsGrounded())
             {
                 isJumping = false;
@@ -84,8 +85,6 @@ public class PlayerController : MonoBehaviour
                 rigidBody.velocity = new Vector2(horizontalDirection * horizontalSpeed / 1.5f, rigidBody.velocity.y);
             }
             canJump = IsGrounded() || canUseCoyoteTime;
-
-            UpdateCoyoteTime();
             UpdateGravity();
             UpdateAnimations();
             UpdateSounds();
@@ -111,6 +110,7 @@ public class PlayerController : MonoBehaviour
                 rigidBody.velocity = new Vector2(rigidBody.velocity.x, jumpForce);
                 GetComponent<PlayerDustEffect>().CreateJumpDust();
                 soundEmitter.PlayOverlap(SoundEffectType.PlayerJump);
+                timeSinceLeftGround = coyoteTimeDuration + 1;
             }
             else if (callbackContext.canceled && rigidBody.velocity.y > 0)
             {
